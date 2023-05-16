@@ -14,6 +14,11 @@
 		3F60D15A2A11C569009EED52 /* ChattyIOTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1592A11C569009EED52 /* ChattyIOTests.swift */; };
 		3F60D1642A11C569009EED52 /* ChattyIOUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1632A11C569009EED52 /* ChattyIOUITests.swift */; };
 		3F60D1662A11C569009EED52 /* ChattyIOUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1652A11C569009EED52 /* ChattyIOUITestsLaunchTests.swift */; };
+		3F60D1732A11C937009EED52 /* chatgpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1722A11C937009EED52 /* chatgpt.swift */; };
+		3F60D1742A11C937009EED52 /* chatgpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1722A11C937009EED52 /* chatgpt.swift */; };
+		3F89AF872A1340FE00AA319F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF862A1340FE00AA319F /* Alamofire */; };
+		3F89AF892A13410200AA319F /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF882A13410200AA319F /* SwiftyJSON */; };
+		3F89AF8D2A13499000AA319F /* config.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3F89AF8A2A13494400AA319F /* config.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,6 +38,29 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3F60D1B12A1337B1009EED52 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3F89AF8C2A13497900AA319F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				3F89AF8D2A13499000AA319F /* config.plist in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3F60D1442A11C568009EED52 /* ChattyIO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChattyIO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F60D1472A11C568009EED52 /* ChattyIOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyIOApp.swift; sourceTree = "<group>"; };
@@ -45,6 +73,10 @@
 		3F60D15F2A11C569009EED52 /* ChattyIOUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChattyIOUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F60D1632A11C569009EED52 /* ChattyIOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyIOUITests.swift; sourceTree = "<group>"; };
 		3F60D1652A11C569009EED52 /* ChattyIOUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyIOUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		3F60D1722A11C937009EED52 /* chatgpt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatgpt.swift; sourceTree = "<group>"; };
+		3F89AF842A13404100AA319F /* Alamofire */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Alamofire; path = ../../Alamofire; sourceTree = "<group>"; };
+		3F89AF852A13405900AA319F /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftyJSON; path = ../../SwiftyJSON; sourceTree = "<group>"; };
+		3F89AF8A2A13494400AA319F /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +84,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F89AF892A13410200AA319F /* SwiftyJSON in Frameworks */,
+				3F89AF872A1340FE00AA319F /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,10 +109,13 @@
 		3F60D13B2A11C568009EED52 = {
 			isa = PBXGroup;
 			children = (
+				3F89AF8A2A13494400AA319F /* config.plist */,
+				3F60D1752A11C9EE009EED52 /* Packages */,
 				3F60D1462A11C568009EED52 /* ChattyIO */,
 				3F60D1582A11C569009EED52 /* ChattyIOTests */,
 				3F60D1622A11C569009EED52 /* ChattyIOUITests */,
 				3F60D1452A11C568009EED52 /* Products */,
+				3F60D1912A11CB65009EED52 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +137,7 @@
 				3F60D14B2A11C569009EED52 /* Assets.xcassets */,
 				3F60D14D2A11C569009EED52 /* ChattyIO.entitlements */,
 				3F60D14E2A11C569009EED52 /* Preview Content */,
+				3F60D1722A11C937009EED52 /* chatgpt.swift */,
 			);
 			path = ChattyIO;
 			sourceTree = "<group>";
@@ -129,6 +167,22 @@
 			path = ChattyIOUITests;
 			sourceTree = "<group>";
 		};
+		3F60D1752A11C9EE009EED52 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				3F89AF842A13404100AA319F /* Alamofire */,
+				3F89AF852A13405900AA319F /* SwiftyJSON */,
+			);
+			path = Packages;
+			sourceTree = "<group>";
+		};
+		3F60D1912A11CB65009EED52 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -139,12 +193,18 @@
 				3F60D1402A11C568009EED52 /* Sources */,
 				3F60D1412A11C568009EED52 /* Frameworks */,
 				3F60D1422A11C568009EED52 /* Resources */,
+				3F60D1B12A1337B1009EED52 /* Embed Frameworks */,
+				3F89AF8C2A13497900AA319F /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = ChattyIO;
+			packageProductDependencies = (
+				3F89AF862A1340FE00AA319F /* Alamofire */,
+				3F89AF882A13410200AA319F /* SwiftyJSON */,
+			);
 			productName = ChattyIO;
 			productReference = 3F60D1442A11C568009EED52 /* ChattyIO.app */;
 			productType = "com.apple.product-type.application";
@@ -259,6 +319,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3F60D1732A11C937009EED52 /* chatgpt.swift in Sources */,
 				3F60D14A2A11C568009EED52 /* ContentView.swift in Sources */,
 				3F60D1482A11C568009EED52 /* ChattyIOApp.swift in Sources */,
 			);
@@ -269,6 +330,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F60D15A2A11C569009EED52 /* ChattyIOTests.swift in Sources */,
+				3F60D1742A11C937009EED52 /* chatgpt.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +474,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ChattyIO/ChattyIO.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChattyIO/Preview Content\"";
@@ -450,6 +513,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ChattyIO/ChattyIO.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChattyIO/Preview Content\"";
@@ -612,6 +676,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3F89AF862A1340FE00AA319F /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Alamofire;
+		};
+		3F89AF882A13410200AA319F /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftyJSON;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3F60D13C2A11C568009EED52 /* Project object */;
 }
