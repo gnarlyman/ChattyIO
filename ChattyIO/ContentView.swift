@@ -7,9 +7,15 @@
 
 import SwiftUI
 
+struct UIMessage: Identifiable, Equatable {
+    let id = UUID()
+    var text: String
+    var isUser: Bool
+}
+
 struct ContentView: View {
     @State private var userInput: String = ""
-    @State private var gptOutput: String = ""
+    @State private var messages: [UIMessage] = []
     @State private var isLoading = false
     let apiKey: String // Add this line to receive the API key as a parameter
     
@@ -23,28 +29,43 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("ChattyIO - The ChatGPT Client!")
+            
+            ScrollViewReader { scrollViewProxy in
+                List(messages, id: \.id) { message in
+                    Text(message.text)
+                        .id(message.id)
+                        .padding(8)
+                        .background(message.isUser ? Color.blue : Color.gray)
+                        .foregroundColor(.white)
+                        .cornerRadius(8)
+                }.onChange(of: messages, perform: { _ in
+                    scrollViewProxy.scrollTo(messages.last?.id, anchor: .bottom)
+                })
+            }
+            
             TextField("Enter text here", text: $userInput, onCommit: {
-                isLoading = true
-                fetchTextFromChatGPT(prompt: userInput, apiKey: apiKey) { result in
-                    isLoading = false
-                    switch result {
-                    case .success(let responseText):
-                        print("Received response text: \(responseText)")
-                        gptOutput = responseText
-                    case .failure(let error):
-                        print("Error: \(error)")
-                        gptOutput = "Error: \(error)"
+                if !userInput.isEmpty {
+                    isLoading = true
+                    messages.append(UIMessage(text: userInput, isUser: true))
+                    fetchTextFromChatGPT(prompt: userInput, apiKey: apiKey) { result in
+                        isLoading = false
+                        switch result {
+                        case .success(let responseText):
+                            print("Received response text: \(responseText)")
+                            messages.append(UIMessage(text: responseText, isUser: false))
+                        case .failure(let error):
+                            print("Error: \(error)")
+                            messages.append(UIMessage(text: "Error: \(error)", isUser: false))
+                        }
                     }
                 }
+                userInput = ""
             })
             .padding(.horizontal)
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .padding()
             if isLoading {
                 ProgressView()
-            } else {
-                Text("You entered: \(userInput)")
-                Text("GPT output: \(gptOutput)")
             }
         }
         .padding()
