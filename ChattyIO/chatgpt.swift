@@ -8,7 +8,6 @@ struct ChatGPTResponse: Decodable {
 
 struct Choice: Decodable {
     let message: Message
-//    let text: String
 }
 
 struct Message: Decodable {
@@ -17,7 +16,7 @@ struct Message: Decodable {
 
 func fetchTextFromChatGPT(messages: [UIMessage], apiKey: String, completionHandler: @escaping (Result<String, Error>) -> Void) {
     let url = URL(string: "https://api.openai.com/v1/chat/completions")!
-    let messageParams = messages.map { ["role": $0.role, "content": $0.content] }
+    let messageParams = messages.map { ["role": $0.role.rawValue, "content": $0.content] }
     let parameters: [String: Any] = [
         "model": "gpt-3.5-turbo",
         "messages": messageParams,

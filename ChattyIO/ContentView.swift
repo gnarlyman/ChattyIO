@@ -28,18 +28,26 @@ struct ContentView: View {
             
             ScrollViewReader { scrollViewProxy in
                 List(messages, id: \.id) { message in
-                    if message.role == "user" {
+                    switch message.role {
+                    case .user:
                         Text(message.content)
                             .id(message.id)
                             .padding(8)
                             .background(Color.blue)
                             .foregroundColor(.white)
                             .cornerRadius(8)
-                    } else {
+                    case .assistant:
                         Text(message.content)
                             .id(message.id)
                             .padding(8)
                             .background(Color.gray)
+                            .foregroundColor(.white)
+                            .cornerRadius(8)
+                    case .system:
+                        Text(message.content)
+                            .id(message.id)
+                            .padding(8)
+                            .background(Color.red)
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
@@ -51,16 +59,16 @@ struct ContentView: View {
             TextField("Enter text here", text: $userInput, onCommit: {
                 if !userInput.isEmpty {
                     isLoading = true
-                    let userMessage = UIMessage(content: userInput, role: "user")
+                    let userMessage = UIMessage(content: userInput, role: Role.user)
                     messages.append(userMessage)
                     fetchTextFromChatGPT(messages: messages, apiKey: apiKey) { result in
                         switch result {
                         case .success(let content):
-                            let assistantMessage = UIMessage(content: content, role: "assistant")
+                            let assistantMessage = UIMessage(content: content, role: Role.assistant)
                             messages.append(assistantMessage)
                         case .failure(let error):
                             print("Error: \(error)")
-                            let errorMessage = UIMessage(content: "Error: \(error)", role: "assistant")
+                            let errorMessage = UIMessage(content: "Error: \(error)", role: Role.assistant)
                             messages.append(errorMessage)
                         }
                         
@@ -82,10 +90,16 @@ struct ContentView: View {
     }
 }
 
+enum Role: String {
+    case user = "user"
+    case assistant = "assistant"
+    case system = "system"
+}
+
 struct UIMessage: Identifiable, Equatable {
     let id = UUID()
     let content: String
-    let role: String
+    let role: Role
 }
 
 // API functions and models here...
