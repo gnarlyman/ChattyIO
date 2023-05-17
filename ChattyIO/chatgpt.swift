@@ -15,10 +15,14 @@ struct Message: Decodable {
     let content: String
 }
 
-func fetchTextFromChatGPT(prompt: String, apiKey: String, completionHandler: @escaping (Result<String, Error>) -> Void) {
+func fetchTextFromChatGPT(messages: [UIMessage], apiKey: String, completionHandler: @escaping (Result<String, Error>) -> Void) {
     let url = URL(string: "https://api.openai.com/v1/chat/completions")!
-    let message: [String: Any] = ["role": "user", "content": prompt]
-    let parameters: [String: Any] = ["model": "gpt-3.5-turbo", "messages": [message], "max_tokens": 1000]
+    let messageParams = messages.map { ["role": $0.role, "content": $0.content] }
+    let parameters: [String: Any] = [
+        "model": "gpt-3.5-turbo",
+        "messages": messageParams,
+        "max_tokens": 1000
+    ]
     let headers: HTTPHeaders = [
         "Content-Type": "application/json",
         "Authorization": "Bearer \(apiKey)"
@@ -39,6 +43,8 @@ func fetchTextFromChatGPT(prompt: String, apiKey: String, completionHandler: @es
             }
         }
 }
+
+
 
 func getAPIKey() -> String {
     guard let path = Bundle.main.path(forResource: "config", ofType: "plist"),

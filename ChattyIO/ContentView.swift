@@ -13,11 +13,10 @@ struct ContentView: View {
     @State private var userInput: String = ""
     @State private var messages: [UIMessage] = []
     @State private var isLoading = false
-    let apiKey: String // Add this line to receive the API key as a parameter
-    let highlightr = Highlightr()
+    let apiKey: String
     
     init(apiKey: String) {
-        self.apiKey = apiKey // Add this line to initialize the API key
+        self.apiKey = apiKey
     }
     
     var body: some View {
@@ -44,27 +43,32 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
-                }.onChange(of: messages, perform: { _ in
+                }.onChange(of: messages) { _ in
                     scrollViewProxy.scrollTo(messages.last?.id, anchor: .bottom)
-                })
+                }
             }
             
             TextField("Enter text here", text: $userInput, onCommit: {
                 if !userInput.isEmpty {
                     isLoading = true
-                    messages.append(UIMessage(content: userInput, role: "user"))
-                    fetchTextFromChatGPT(prompt: userInput, apiKey: apiKey) { result in
-                        isLoading = false
+                    let userMessage = UIMessage(content: userInput, role: "user")
+                    messages.append(userMessage)
+                    fetchTextFromChatGPT(messages: messages, apiKey: apiKey) { result in
                         switch result {
-                        case .success(let responseText):
-                            messages.append(UIMessage(content: responseText, role: "assistant"))
+                        case .success(let content):
+                            let assistantMessage = UIMessage(content: content, role: "assistant")
+                            messages.append(assistantMessage)
                         case .failure(let error):
                             print("Error: \(error)")
-                            messages.append(UIMessage(content: "Error: \(error)", role: "assistant"))
+                            let errorMessage = UIMessage(content: "Error: \(error)", role: "assistant")
+                            messages.append(errorMessage)
                         }
+                        
+                        isLoading = false
                     }
+                    
+                    userInput = ""
                 }
-                userInput = ""
             })
             .padding(.horizontal)
             .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -84,12 +88,14 @@ struct UIMessage: Identifiable, Equatable {
     let role: String
 }
 
+// API functions and models here...
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(apiKey: getAPIKey()) // Add this line to pass the API key as a parameter
+        ContentView(apiKey: getAPIKey())
     }
 }
+
 
 struct CodeTextView: View {
     let content: String
