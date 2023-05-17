@@ -19,6 +19,7 @@
 		3F89AF872A1340FE00AA319F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF862A1340FE00AA319F /* Alamofire */; };
 		3F89AF892A13410200AA319F /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF882A13410200AA319F /* SwiftyJSON */; };
 		3F89AF8D2A13499000AA319F /* config.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3F89AF8A2A13494400AA319F /* config.plist */; };
+		3F89AF902A1485CB00AA319F /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF8F2A1485CB00AA319F /* Highlightr */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 		3F89AF842A13404100AA319F /* Alamofire */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Alamofire; path = ../../Alamofire; sourceTree = "<group>"; };
 		3F89AF852A13405900AA319F /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftyJSON; path = ../../SwiftyJSON; sourceTree = "<group>"; };
 		3F89AF8A2A13494400AA319F /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
+		3F89AF8E2A14858F00AA319F /* Highlightr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Highlightr; path = ../../Highlightr; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +87,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F89AF892A13410200AA319F /* SwiftyJSON in Frameworks */,
+				3F89AF902A1485CB00AA319F /* Highlightr in Frameworks */,
 				3F89AF872A1340FE00AA319F /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,6 +175,7 @@
 			children = (
 				3F89AF842A13404100AA319F /* Alamofire */,
 				3F89AF852A13405900AA319F /* SwiftyJSON */,
+				3F89AF8E2A14858F00AA319F /* Highlightr */,
 			);
 			path = Packages;
 			sourceTree = "<group>";
@@ -204,6 +208,7 @@
 			packageProductDependencies = (
 				3F89AF862A1340FE00AA319F /* Alamofire */,
 				3F89AF882A13410200AA319F /* SwiftyJSON */,
+				3F89AF8F2A1485CB00AA319F /* Highlightr */,
 			);
 			productName = ChattyIO;
 			productReference = 3F60D1442A11C568009EED52 /* ChattyIO.app */;
@@ -693,6 +698,10 @@
 		3F89AF882A13410200AA319F /* SwiftyJSON */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftyJSON;
+		};
+		3F89AF8F2A1485CB00AA319F /* Highlightr */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Highlightr;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

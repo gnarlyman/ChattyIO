@@ -8,6 +8,7 @@ struct ChatGPTResponse: Decodable {
 
 struct Choice: Decodable {
     let message: Message
+//    let text: String
 }
 
 struct Message: Decodable {
@@ -26,7 +27,6 @@ func fetchTextFromChatGPT(prompt: String, apiKey: String, completionHandler: @es
     AF.request(url, method: .post, parameters: parameters, encoding: JSONEncoding.default, headers: headers)
         .validate()
         .responseDecodable(of: ChatGPTResponse.self) { response in
-//            print(response.response?.headers)
             switch response.result {
             case .success(let chatGPTResponse):
                 guard let content = chatGPTResponse.choices.first?.message.content else {
