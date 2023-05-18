@@ -33,6 +33,7 @@ struct SettingsView: View {
         .onAppear {
             inputApiKey = apiKey
         }
+        .padding(10)
     }
     
     private func saveApiKey() {
