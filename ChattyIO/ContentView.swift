@@ -106,25 +106,32 @@ struct MessageView: View {
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .cornerRadius(8)
-                .frame(maxWidth: .infinity, alignment: .leading) // Align the bubble to the left
+                .frame(maxWidth: .infinity, alignment: .leading)
         case .assistant:
-            VStack(alignment: .leading) {
-                Text(message.content)
-                    .padding(8)
-                    .background(Color.gray)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
+            ZStack(alignment: .topLeading) {
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.gray)
+                VStack(alignment: .leading) {
+                    SyntaxHighlightTextView(content: message.content)
+                        .foregroundColor(.white)
+                        .padding(8)
+                }
             }
-            .frame(maxWidth: .infinity, alignment: .leading) // Align the bubble to the left
+            .frame(maxWidth: .infinity, alignment: .leading)
         case .system:
             Text(message.content)
                 .padding(8)
                 .background(Color.red)
                 .foregroundColor(.white)
                 .cornerRadius(8)
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 }
+
+
+
+
 
 
 struct ContentView_Previews: PreviewProvider {
@@ -152,7 +159,7 @@ struct SyntaxHighlightTextView: View {
         return ZStack {
             Color.clear // Set the desired background color
             
-            TextViewWrapper(attributedString: attributedString)
+            TextViewWrapper(attributedString: attributedString, textColor: .white, backgroundColor: .clear)
                 .foregroundColor(.white)
         }
     }
@@ -183,20 +190,23 @@ struct SyntaxHighlightTextView: View {
 
 struct TextViewWrapper: NSViewRepresentable {
     let attributedString: NSAttributedString
+    let textColor: NSColor
+    let backgroundColor: NSColor
 
     func makeNSView(context: Context) -> NSTextView {
-        let textView = NSTextView(frame: .zero)
+        let textView = NSTextView()
         textView.isEditable = false
         textView.isSelectable = false
-        textView.backgroundColor = .clear // Set background color to clear
         textView.textContainerInset = NSSize(width: 8, height: 8)
+        textView.backgroundColor = backgroundColor
+        textView.textColor = textColor
         textView.textStorage?.setAttributedString(attributedString)
         return textView
     }
 
     func updateNSView(_ nsView: NSTextView, context: Context) {
         nsView.textStorage?.setAttributedString(attributedString)
+        nsView.textColor = textColor
+        nsView.backgroundColor = backgroundColor
     }
 }
-
-
