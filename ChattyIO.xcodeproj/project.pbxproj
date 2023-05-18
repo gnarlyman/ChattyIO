@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F60036D2A15D2840051C869 /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 3F60036C2A15D2840051C869 /* Highlightr */; };
+		3F6003702A15D2AD0051C869 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3F60036F2A15D2AD0051C869 /* SwiftyJSON */; };
 		3F60D1482A11C568009EED52 /* ChattyIOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1472A11C568009EED52 /* ChattyIOApp.swift */; };
 		3F60D14A2A11C568009EED52 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1492A11C568009EED52 /* ContentView.swift */; };
 		3F60D14C2A11C569009EED52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F60D14B2A11C569009EED52 /* Assets.xcassets */; };
@@ -17,9 +19,7 @@
 		3F60D1732A11C937009EED52 /* chatgpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1722A11C937009EED52 /* chatgpt.swift */; };
 		3F60D1742A11C937009EED52 /* chatgpt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1722A11C937009EED52 /* chatgpt.swift */; };
 		3F89AF872A1340FE00AA319F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF862A1340FE00AA319F /* Alamofire */; };
-		3F89AF892A13410200AA319F /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF882A13410200AA319F /* SwiftyJSON */; };
 		3F89AF8D2A13499000AA319F /* config.plist in CopyFiles */ = {isa = PBXBuildFile; fileRef = 3F89AF8A2A13494400AA319F /* config.plist */; };
-		3F89AF902A1485CB00AA319F /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 3F89AF8F2A1485CB00AA319F /* Highlightr */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,10 +75,7 @@
 		3F60D1632A11C569009EED52 /* ChattyIOUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyIOUITests.swift; sourceTree = "<group>"; };
 		3F60D1652A11C569009EED52 /* ChattyIOUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyIOUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		3F60D1722A11C937009EED52 /* chatgpt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = chatgpt.swift; sourceTree = "<group>"; };
-		3F89AF842A13404100AA319F /* Alamofire */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Alamofire; path = ../../Alamofire; sourceTree = "<group>"; };
-		3F89AF852A13405900AA319F /* SwiftyJSON */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SwiftyJSON; path = ../../SwiftyJSON; sourceTree = "<group>"; };
 		3F89AF8A2A13494400AA319F /* config.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = config.plist; sourceTree = "<group>"; };
-		3F89AF8E2A14858F00AA319F /* Highlightr */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Highlightr; path = ../../Highlightr; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,8 +83,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3F89AF892A13410200AA319F /* SwiftyJSON in Frameworks */,
-				3F89AF902A1485CB00AA319F /* Highlightr in Frameworks */,
+				3F6003702A15D2AD0051C869 /* SwiftyJSON in Frameworks */,
+				3F60036D2A15D2840051C869 /* Highlightr in Frameworks */,
 				3F89AF872A1340FE00AA319F /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -113,7 +110,6 @@
 			isa = PBXGroup;
 			children = (
 				3F89AF8A2A13494400AA319F /* config.plist */,
-				3F60D1752A11C9EE009EED52 /* Packages */,
 				3F60D1462A11C568009EED52 /* ChattyIO */,
 				3F60D1582A11C569009EED52 /* ChattyIOTests */,
 				3F60D1622A11C569009EED52 /* ChattyIOUITests */,
@@ -170,16 +166,6 @@
 			path = ChattyIOUITests;
 			sourceTree = "<group>";
 		};
-		3F60D1752A11C9EE009EED52 /* Packages */ = {
-			isa = PBXGroup;
-			children = (
-				3F89AF842A13404100AA319F /* Alamofire */,
-				3F89AF852A13405900AA319F /* SwiftyJSON */,
-				3F89AF8E2A14858F00AA319F /* Highlightr */,
-			);
-			path = Packages;
-			sourceTree = "<group>";
-		};
 		3F60D1912A11CB65009EED52 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,8 +193,8 @@
 			name = ChattyIO;
 			packageProductDependencies = (
 				3F89AF862A1340FE00AA319F /* Alamofire */,
-				3F89AF882A13410200AA319F /* SwiftyJSON */,
-				3F89AF8F2A1485CB00AA319F /* Highlightr */,
+				3F60036C2A15D2840051C869 /* Highlightr */,
+				3F60036F2A15D2AD0051C869 /* SwiftyJSON */,
 			);
 			productName = ChattyIO;
 			productReference = 3F60D1442A11C568009EED52 /* ChattyIO.app */;
@@ -282,6 +268,11 @@
 				Base,
 			);
 			mainGroup = 3F60D13B2A11C568009EED52;
+			packageReferences = (
+				3F6003682A15D22C0051C869 /* XCRemoteSwiftPackageReference "Alamofire" */,
+				3F60036B2A15D2840051C869 /* XCRemoteSwiftPackageReference "Highlightr" */,
+				3F60036E2A15D2AD0051C869 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
+			);
 			productRefGroup = 3F60D1452A11C568009EED52 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -690,18 +681,47 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		3F6003682A15D22C0051C869 /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+		3F60036B2A15D2840051C869 /* XCRemoteSwiftPackageReference "Highlightr" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/raspu/Highlightr.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+		3F60036E2A15D2AD0051C869 /* XCRemoteSwiftPackageReference "SwiftyJSON" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyJSON/SwiftyJSON.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		3F60036C2A15D2840051C869 /* Highlightr */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F60036B2A15D2840051C869 /* XCRemoteSwiftPackageReference "Highlightr" */;
+			productName = Highlightr;
+		};
+		3F60036F2A15D2AD0051C869 /* SwiftyJSON */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3F60036E2A15D2AD0051C869 /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
+			productName = SwiftyJSON;
+		};
 		3F89AF862A1340FE00AA319F /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Alamofire;
-		};
-		3F89AF882A13410200AA319F /* SwiftyJSON */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SwiftyJSON;
-		};
-		3F89AF8F2A1485CB00AA319F /* Highlightr */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Highlightr;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
