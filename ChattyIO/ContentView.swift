@@ -15,8 +15,8 @@ struct ContentView: View {
     @State private var isLoading = false
     @State private var showSettings = false
     @AppStorage("apiKey") private var apiKey: String = ""
-    
-    @FocusState private var isTextFieldFocused: Bool // Track the focus state of the TextField
+
+    @FocusState private var isTextFieldFocused: Bool
 
     var body: some View {
         VStack {
@@ -32,38 +32,20 @@ struct ContentView: View {
             .sheet(isPresented: $showSettings) {
                 SettingsView()
             }
-            
+
             ScrollViewReader { scrollViewProxy in
-                List(messages, id: \.id) { message in
-                    switch message.role {
-                    case .user:
-                        Text(message.content)
-                            .id(message.id)
-                            .padding(8)
-                            .background(Color.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    case .assistant:
-                        Text(message.content)
-                            .id(message.id)
-                            .padding(8)
-                            .background(Color.gray)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
-                    case .system:
-                        Text(message.content)
-                            .id(message.id)
-                            .padding(8)
-                            .background(Color.red)
-                            .foregroundColor(.white)
-                            .cornerRadius(8)
+                ScrollView {
+                    LazyVStack(spacing: 8) {
+                        ForEach(messages) { message in
+                            MessageView(message: message)
+                        }
                     }
                 }
-                .onChange(of: messages) { _ in
-                    scrollViewProxy.scrollTo(messages.last?.id, anchor: .bottom)
+                .onAppear {
+                    scrollToBottom(scrollViewProxy: scrollViewProxy)
                 }
             }
-            
+
             TextField("Enter text here", text: $userInput)
                 .padding(.horizontal)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -85,22 +67,28 @@ struct ContentView: View {
                                 let errorMessage = UIMessage(content: "Error: \(error)", role: Role.assistant)
                                 messages.append(errorMessage)
                             }
-                            
+
                             isLoading = false
                         }
-                        
+
                         userInput = ""
                     }
                 }
-            
-            
+
             if isLoading {
                 ProgressView()
             }
         }
         .padding()
     }
+
+    private func scrollToBottom(scrollViewProxy: ScrollViewProxy) {
+        DispatchQueue.main.async {
+            scrollViewProxy.scrollTo(messages.last?.id, anchor: .bottom)
+        }
+    }
 }
+
 
 enum Role: String {
     case user = "user"
@@ -116,42 +104,89 @@ struct UIMessage: Identifiable, Equatable {
 
 // API functions and models here...
 
+struct MessageView: View {
+    let message: UIMessage
+
+    var body: some View {
+        switch message.role {
+        case .user:
+            Text(message.content)
+                .padding(8)
+                .background(Color.blue)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+                .frame(maxWidth: .infinity, alignment: .leading) // Align the bubble to the left
+        case .assistant:
+            VStack(alignment: .leading) {
+                Text(message.content)
+                    .padding(8)
+                    .background(Color.gray)
+                    .foregroundColor(.white)
+                    .cornerRadius(8)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading) // Align the bubble to the left
+        case .system:
+            Text(message.content)
+                .padding(8)
+                .background(Color.red)
+                .foregroundColor(.white)
+                .cornerRadius(8)
+        }
+    }
+}
+
+
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
 
-
-struct CodeTextView: View {
+struct SyntaxHighlightTextView: View {
     let content: String
     let highlightr = Highlightr()
-
+    
     var body: some View {
-        if content.hasPrefix("```") && content.hasSuffix("```") {
-            let codeContent = content.trimmingCharacters(in: .whitespacesAndNewlines).dropFirst(3).dropLast(3)
-            let highlightedCode = highlightr?.highlight(String(codeContent), as: "python")
+        let codeRanges = findCodeRanges(content)
+        let attributedString = NSMutableAttributedString(string: content)
+        
+        for (codeRange, language) in codeRanges {
+            let codeContent = String(content[Range(codeRange, in: content)!])
             
-            if let codeString = highlightedCode?.value(forKey: "value") as? String {
-                let attributedString = NSMutableAttributedString(string: codeString)
+            if let highlightedCode = highlightr?.highlight(codeContent, as: language) {
+                attributedString.replaceCharacters(in: codeRange, with: highlightedCode)
+            }
+        }
+        
+        return ZStack {
+            Color.clear // Set the desired background color
+            
+            TextViewWrapper(attributedString: attributedString)
+                .foregroundColor(.white)
+        }
+    }
+    
+    private func findCodeRanges(_ content: String) -> [(NSRange, String)] {
+        var ranges: [(NSRange, String)] = []
+        
+        let pattern = #"\`\`\`([a-zA-Z0-9_]+)?(.*?)\`\`\`"#
+        let regex = try? NSRegularExpression(pattern: pattern, options: [])
+        let matches = regex?.matches(in: content, options: [], range: NSRange(location: 0, length: content.utf16.count))
+        
+        for match in matches ?? [] {
+            if match.numberOfRanges >= 3 {
+                let languageRange = match.range(at: 1)
+                let codeRange = match.range(at: 2)
                 
-                return AnyView {
-                    TextViewWrapper(attributedString: attributedString)
-                        .foregroundColor(.white)
-                        .background(Color.gray)
-                        .cornerRadius(8)
-                        .padding()
+                if let languageRange = Range(languageRange, in: content),
+                   let codeRange = Range(codeRange, in: content) {
+                    let language = content[languageRange].trimmingCharacters(in: .whitespacesAndNewlines)
+                    ranges.append((NSRange(codeRange, in: content), language))
                 }
             }
         }
         
-        return AnyView {
-            Text(content)
-                .foregroundColor(.white)
-                .background(Color.gray)
-                .cornerRadius(8)
-                .padding()
-        }
+        return ranges
     }
 }
 
@@ -159,8 +194,10 @@ struct TextViewWrapper: NSViewRepresentable {
     let attributedString: NSAttributedString
 
     func makeNSView(context: Context) -> NSTextView {
-        let textView = NSTextView()
+        let textView = NSTextView(frame: .zero)
         textView.isEditable = false
+        textView.isSelectable = false
+        textView.backgroundColor = .clear // Set background color to clear
         textView.textContainerInset = NSSize(width: 8, height: 8)
         textView.textStorage?.setAttributedString(attributedString)
         return textView
@@ -170,3 +207,5 @@ struct TextViewWrapper: NSViewRepresentable {
         nsView.textStorage?.setAttributedString(attributedString)
     }
 }
+
+
