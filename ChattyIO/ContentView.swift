@@ -13,18 +13,23 @@ struct ContentView: View {
     @State private var userInput: String = ""
     @State private var messages: [UIMessage] = []
     @State private var isLoading = false
-    let apiKey: String
-    
-    init(apiKey: String) {
-        self.apiKey = apiKey
-    }
-    
+    @State private var showSettings = false
+    @AppStorage("apiKey") private var apiKey: String = ""
+
     var body: some View {
         VStack {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("ChattyIO - The ChatGPT Client!")
+            Button(action: {
+                showSettings = true
+            }) {
+                Text("Settings")
+            }
+            .sheet(isPresented: $showSettings) {
+                SettingsView()
+            }
             
             ScrollViewReader { scrollViewProxy in
                 List(messages, id: \.id) { message in
@@ -106,7 +111,7 @@ struct UIMessage: Identifiable, Equatable {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(apiKey: getAPIKey())
+        ContentView()
     }
 }
 

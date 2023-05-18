@@ -11,7 +11,7 @@ import SwiftUI
 struct ChattyIOApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView(apiKey: getAPIKey())
+            ContentView()
         }
     }
 }
