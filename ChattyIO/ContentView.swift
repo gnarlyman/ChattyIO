@@ -41,9 +41,6 @@ struct ContentView: View {
                         }
                     }
                 }
-                .onAppear {
-                    scrollToBottom(scrollViewProxy: scrollViewProxy)
-                }
             }
 
             TextField("Enter text here", text: $userInput)
@@ -80,12 +77,6 @@ struct ContentView: View {
             }
         }
         .padding()
-    }
-
-    private func scrollToBottom(scrollViewProxy: ScrollViewProxy) {
-        DispatchQueue.main.async {
-            scrollViewProxy.scrollTo(messages.last?.id, anchor: .bottom)
-        }
     }
 }
 
