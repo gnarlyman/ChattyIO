@@ -46,7 +46,7 @@ func fetchTextFromChatGPT(messages: [UIMessage], apiKey: String, completionHandl
 
 
 func getAPIKey() -> String {
-    guard let path = Bundle.main.path(forResource: "config", ofType: "plist"),
+    guard let path = Bundle.main.path(forResource: "secret", ofType: "plist"),
           let xml = FileManager.default.contents(atPath: path),
           let config = try? PropertyListSerialization.propertyList(from: xml, options: .mutableContainersAndLeaves, format: nil) as? [String: Any],
           let apiKey = config["apiKey"] as? String else {
