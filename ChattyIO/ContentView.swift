@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var isLoading = false
     @State private var showSettings = false
     @AppStorage("apiKey") private var apiKey: String = ""
+    
+    @FocusState private var isTextFieldFocused: Bool // Track the focus state of the TextField
 
     var body: some View {
         VStack {
@@ -56,36 +58,41 @@ struct ContentView: View {
                             .foregroundColor(.white)
                             .cornerRadius(8)
                     }
-                }.onChange(of: messages) { _ in
+                }
+                .onChange(of: messages) { _ in
                     scrollViewProxy.scrollTo(messages.last?.id, anchor: .bottom)
                 }
             }
             
-            TextField("Enter text here", text: $userInput, onCommit: {
-                if !userInput.isEmpty {
-                    isLoading = true
-                    let userMessage = UIMessage(content: userInput, role: Role.user)
-                    messages.append(userMessage)
-                    fetchTextFromChatGPT(messages: messages, apiKey: apiKey) { result in
-                        switch result {
-                        case .success(let content):
-                            let assistantMessage = UIMessage(content: content, role: Role.assistant)
-                            messages.append(assistantMessage)
-                        case .failure(let error):
-                            print("Error: \(error)")
-                            let errorMessage = UIMessage(content: "Error: \(error)", role: Role.assistant)
-                            messages.append(errorMessage)
+            TextField("Enter text here", text: $userInput)
+                .padding(.horizontal)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding()
+                .focused($isTextFieldFocused)
+                .submitLabel(.done)
+                .onSubmit {
+                    if !userInput.isEmpty {
+                        isLoading = true
+                        let userMessage = UIMessage(content: userInput, role: Role.user)
+                        messages.append(userMessage)
+                        fetchTextFromChatGPT(messages: messages, apiKey: apiKey) { result in
+                            switch result {
+                            case .success(let content):
+                                let assistantMessage = UIMessage(content: content, role: Role.assistant)
+                                messages.append(assistantMessage)
+                            case .failure(let error):
+                                print("Error: \(error)")
+                                let errorMessage = UIMessage(content: "Error: \(error)", role: Role.assistant)
+                                messages.append(errorMessage)
+                            }
+                            
+                            isLoading = false
                         }
                         
-                        isLoading = false
+                        userInput = ""
                     }
-                    
-                    userInput = ""
                 }
-            })
-            .padding(.horizontal)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
+            
             
             if isLoading {
                 ProgressView()
