@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		3F60036D2A15D2840051C869 /* Highlightr in Frameworks */ = {isa = PBXBuildFile; productRef = 3F60036C2A15D2840051C869 /* Highlightr */; };
 		3F6003702A15D2AD0051C869 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 3F60036F2A15D2AD0051C869 /* SwiftyJSON */; };
+		3F6003722A15D7060051C869 /* secret.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3F6003712A15D7060051C869 /* secret.plist */; };
 		3F60D1482A11C568009EED52 /* ChattyIOApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1472A11C568009EED52 /* ChattyIOApp.swift */; };
 		3F60D14A2A11C568009EED52 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F60D1492A11C568009EED52 /* ContentView.swift */; };
 		3F60D14C2A11C569009EED52 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3F60D14B2A11C569009EED52 /* Assets.xcassets */; };
@@ -61,6 +62,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		3F6003712A15D7060051C869 /* secret.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = secret.plist; sourceTree = "<group>"; };
 		3F60D1442A11C568009EED52 /* ChattyIO.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChattyIO.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3F60D1472A11C568009EED52 /* ChattyIOApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChattyIOApp.swift; sourceTree = "<group>"; };
 		3F60D1492A11C568009EED52 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				3F60D14D2A11C569009EED52 /* ChattyIO.entitlements */,
 				3F60D14E2A11C569009EED52 /* Preview Content */,
 				3F60D1722A11C937009EED52 /* chatgpt.swift */,
+				3F6003712A15D7060051C869 /* secret.plist */,
 			);
 			path = ChattyIO;
 			sourceTree = "<group>";
@@ -286,6 +289,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3F60D1502A11C569009EED52 /* Preview Assets.xcassets in Resources */,
+				3F6003722A15D7060051C869 /* secret.plist in Resources */,
 				3F60D14C2A11C569009EED52 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
