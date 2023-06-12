@@ -11,12 +11,16 @@ import AppKit
 
 struct ContentView: View {
     @State private var userInput: String = ""
-    @State private var messages: [UIMessage] = []
+    @State private var messages: [UIMessage]
     @State private var isLoading = false
     @State private var showSettings = false
     @AppStorage("apiKey") private var apiKey: String = ""
 
     @FocusState private var isTextFieldFocused: Bool
+    
+    init(messages: [UIMessage]) {
+        self._messages = State(initialValue: messages)
+    }
 
     var body: some View {
         VStack {
@@ -38,10 +42,19 @@ struct ContentView: View {
                     LazyVStack(spacing: 8) {
                         ForEach(messages) { message in
                             MessageView(message: message)
+                                .id(message.id) // Use the message ID as the identifier
+                        }
+                    }
+                    .padding(16) // Add padding to the LazyVStack
+                    .onChange(of: messages) { _ in
+                        // Scroll to the bottom when messages change
+                        withAnimation {
+                            scrollViewProxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
                     }
                 }
             }
+
 
             TextField("Enter text here", text: $userInput)
                 .padding(.horizontal)
@@ -107,24 +120,19 @@ struct MessageView: View {
                 .foregroundColor(.white)
                 .cornerRadius(8)
                 .frame(maxWidth: .infinity, alignment: .leading)
-        case .assistant:
-            ZStack(alignment: .topLeading) {
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.gray)
-                VStack(alignment: .leading) {
-                    SyntaxHighlightTextView(content: message.content)
-                        .foregroundColor(.white)
-                        .padding(8)
-                }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        case .system:
+                .padding(.leading, 16) // Add leading padding for user messages
+                .padding(.trailing, 80) // Add trailing padding for user messages
+                .alignmentGuide(.trailing) { _ in CGFloat.infinity } // Align user messages to the left
+        case .assistant, .system:
             Text(message.content)
                 .padding(8)
-                .background(Color.red)
+                .background(Color.gray)
                 .foregroundColor(.white)
                 .cornerRadius(8)
-                .frame(maxWidth: .infinity, alignment: .leading)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.leading, 80) // Add leading padding for assistant/system messages
+                .padding(.trailing, 16) // Add trailing padding for assistant/system messages
+                .alignmentGuide(.leading) { _ in CGFloat.infinity } // Align assistant/system messages to the right
         }
     }
 }
@@ -132,81 +140,21 @@ struct MessageView: View {
 
 
 
-
+// Fake messages for preview
+let fakeMessages: [UIMessage] = [
+    UIMessage(content: "Hello!", role: .user),
+    UIMessage(content: "Hi there!", role: .assistant),
+    UIMessage(content: "How are you?", role: .user),
+    UIMessage(content: "I'm doing well, thanks!", role: .assistant),
+    UIMessage(content: "That's great to hear!", role: .user),
+    UIMessage(content: "Yes, it definitely is.", role: .assistant),
+    UIMessage(content: "By the way, have you seen the latest movie?", role: .assistant),
+    UIMessage(content: "No, I haven't. Is it good?", role: .user),
+    UIMessage(content: "Absolutely! It's a must-watch.", role: .assistant)
+]
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
-    }
-}
-
-struct SyntaxHighlightTextView: View {
-    let content: String
-    let highlightr = Highlightr()
-    
-    var body: some View {
-        let codeRanges = findCodeRanges(content)
-        let attributedString = NSMutableAttributedString(string: content)
-        
-        for (codeRange, language) in codeRanges {
-            let codeContent = String(content[Range(codeRange, in: content)!])
-            
-            if let highlightedCode = highlightr?.highlight(codeContent, as: language) {
-                attributedString.replaceCharacters(in: codeRange, with: highlightedCode)
-            }
-        }
-        
-        return ZStack {
-            Color.clear // Set the desired background color
-            
-            TextViewWrapper(attributedString: attributedString, textColor: .white, backgroundColor: .clear)
-                .foregroundColor(.white)
-        }
-    }
-    
-    private func findCodeRanges(_ content: String) -> [(NSRange, String)] {
-        var ranges: [(NSRange, String)] = []
-        
-        let pattern = #"\`\`\`([a-zA-Z0-9_]+)?(.*?)\`\`\`"#
-        let regex = try? NSRegularExpression(pattern: pattern, options: [])
-        let matches = regex?.matches(in: content, options: [], range: NSRange(location: 0, length: content.utf16.count))
-        
-        for match in matches ?? [] {
-            if match.numberOfRanges >= 3 {
-                let languageRange = match.range(at: 1)
-                let codeRange = match.range(at: 2)
-                
-                if let languageRange = Range(languageRange, in: content),
-                   let codeRange = Range(codeRange, in: content) {
-                    let language = content[languageRange].trimmingCharacters(in: .whitespacesAndNewlines)
-                    ranges.append((NSRange(codeRange, in: content), language))
-                }
-            }
-        }
-        
-        return ranges
-    }
-}
-
-struct TextViewWrapper: NSViewRepresentable {
-    let attributedString: NSAttributedString
-    let textColor: NSColor
-    let backgroundColor: NSColor
-
-    func makeNSView(context: Context) -> NSTextView {
-        let textView = NSTextView()
-        textView.isEditable = false
-        textView.isSelectable = false
-        textView.textContainerInset = NSSize(width: 8, height: 8)
-        textView.backgroundColor = backgroundColor
-        textView.textColor = textColor
-        textView.textStorage?.setAttributedString(attributedString)
-        return textView
-    }
-
-    func updateNSView(_ nsView: NSTextView, context: Context) {
-        nsView.textStorage?.setAttributedString(attributedString)
-        nsView.textColor = textColor
-        nsView.backgroundColor = backgroundColor
+        ContentView(messages: fakeMessages)
     }
 }
